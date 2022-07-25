@@ -1,0 +1,244 @@
+<div class="d-flex col-12 mx-3">
+
+
+<div class="col-11">
+  <ul class="nav nav-tabs justify-content-center mt-3" id="myTab" role="tablist">
+    <li class="nav-item" >
+        <button class="nav-link text-warning active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button"
+            role="tab" aria-controls="home-tab-pane" aria-selected="true">All Products</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link text-warning" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button"
+            role="tab" aria-controls="profile-tab-pane" aria-selected="false">Delete/Update</button>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+        <div class="d-flex justify-content-center">
+            <select class="btn btn-warning col-3 m-3" #catIdValue name="" id="" (change)="prdById(catIdValue.value)">
+                <option disabled selected>Choose Category</option>
+                <option value={{cat.id}} *ngFor="let cat of categories">{{cat.name}}</option>
+            </select>
+        </div>
+
+        <div class="search">
+          <input
+            type="text"
+            [(ngModel)]="term"
+            class="searchTerm btn btn-dark text-warning col-12"
+            placeholder="Search"
+          />
+        </div>
+        
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let prd of Products | filter: term let i = index">
+                    <th scope="row">{{i+1}}</th>
+                    <td>{{prd.id}}</td>
+                    <td>{{prd.name}}</td>
+                    <td><img src={{prd.img}} width="40rem"></td>
+                    <td>{{prd.quantity}}</td>
+                    <td>{{prd.price}}</td>
+                    <td><button (click)="openProductDetails(prd)" class="btn btn-warning">Details</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+      <div class="search my-3">
+        <input
+          type="text"
+          [(ngModel)]="term"
+          class="searchTerm btn btn-dark text-warning col-12"
+          placeholder="Search"
+        />
+      </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Update</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let prd of Products |filter: term let i = index">
+                    <th scope="row">{{i+1}}</th>
+                    <td>{{prd.id}}</td>
+                    <td>{{prd.name}}</td>
+                    <td><img src={{prd.img}} width="40rem"></td>
+                    <td>{{prd.quantity}}</td>
+                    <td>{{prd.price}}</td>
+                    <td><button class="btn btn-success m-1" (click)="update(prd)" >Update</button></td>
+                    <td><button class="btn btn-danger m-1" (click)="deleteproduct(prd)">Delete</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+<div class="d-flex justify-content-center col-1">
+  <button class="btn btn-dark col-10 my-3" (click)="addnewPrd()"><i class="fa-solid fa-circle-plus" style="font-size: 2.4rem;"></i></button>
+</div>
+</div>
+
+<!-- -----------------------Details-Modal------------------------ -->
+
+<div
+  class="modal fade"
+  id="myModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Product Details</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="whenClose()"
+        ></button>
+      </div>
+      <div class="modal-body">
+       <!-- ---------------card------------- -->
+       <ng-container *ngFor="let prdDetails of productDetails">
+       <div class="card mb-3" >
+        <div class="row g-0">
+            
+          <div class="col-md-4" >
+            <img [src]="prdDetails.img" class="img-fluid rounded-start">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body d-flex flex-column justify-content-center">
+              <h3 class="card-title my-3">{{prdDetails.name}}</h3>
+              <small class="mb-2">Product Quantity: {{prdDetails.quantity}}</small>
+              <small class="mb-2">Product Price: {{prdDetails.price}}</small>
+              <p class="card-text my-2">{{prdDetails.details}}</p>
+              <p class="card-textmy-2"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="whenClose()">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- -------------update-Add---------- -->
+
+<div
+  class="modal fade"
+  id="myModalAU"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add/Update Product</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="whenClose()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <h3>Product</h3>
+        <form class="row g-3" #prdForm="ngForm">
+
+          <div class="col-12">
+              <div id="test" class="alert alert-success my-2" *ngIf="add">product add</div>
+              <div class="alert alert-success my-2" *ngIf="updateed">product updated</div>
+              <label for="Name"  class="form-label">Product Name</label>
+              <input type="text" class="form-control" id="Name" name="name" #newPrdInput="ngModel" [(ngModel)]="newProduct.name" required pattern="[A-Za-z]{3,}">
+
+                        
+                <small class="text-danger" [hidden]="newPrdInput.untouched || newPrdInput.valid" *ngIf="newPrdInput.errors?.['required']">
+                    Product Name is required
+                </small>
+                <small class="text-danger" [hidden]="newPrdInput.untouched || newPrdInput.valid" *ngIf="newPrdInput.errors?.['pattern']">
+                    Product Name must be 3 letters at least
+                </small>
+              
+            </div>
+
+          <div class="col-md-6">
+            <label for="Quantity" class="form-label">Quantity</label>
+            <input type="number" class="form-control" id="Quantity"  name="quantity" #quantity="ngModel" [(ngModel)]="newProduct.quantity" required >
+
+                        
+              <small  class="text-danger" [hidden]="quantity.untouched || quantity.valid" *ngIf="quantity.errors?.['required'] ">
+                  Product quantity is required
+              </small>
+
+
+          </div>
+          <div class="col-md-6">
+            <label for="Price" class="form-label">Price</label>
+            <input type="number" class="form-control" id="Price" name="price" #price="ngModel" [(ngModel)]="newProduct.price" required >
+
+                        
+              <small  class="text-danger" [hidden]="price.untouched || price.valid" *ngIf="price.errors?.['required']">
+                  Product Price is required
+              </small>
+
+
+          </div>
+          <div class="col-md-12">
+            <label for="Details" class="form-label">Details</label>
+            <input type="text" class="form-control" id="Details"  name="details" [(ngModel)]="newProduct.details ">
+          </div>
+          <div class="col-md-12">
+            <label for="Category" class="form-label">Category</label>
+            <select id="Category" class="form-select" name="category" #catVal="ngModel" #cat [(ngModel)]="_catIdValue" required>
+              <option selected disabled>Choose Category</option>
+              <option *ngFor="let cat of categories" value={{cat.id}}>{{cat.name}}</option>
+            </select>
+            <small class="text-danger" [hidden]="catVal.valid || catVal.untouched" *ngIf="catVal.errors?.['required']">
+              You Must Choose Category To Add
+          </small>
+          </div>
+
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" [disabled]="prdForm.invalid" (click)="add_update_Product(cat.value)">
+            Save
+          </button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="whenClose()">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

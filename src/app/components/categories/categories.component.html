@@ -1,0 +1,120 @@
+<div class="d-flex col-12 mx-3">
+
+<div class="col-11">
+  <ul class="nav nav-tabs justify-content-center mt-3" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link text-warning active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">All Categories</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link text-warning" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Delete/Update</button>
+    </li>
+  </ul> 
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+      <div class="search my-3">
+        <input
+          type="text"
+          [(ngModel)]="term"
+          class="searchTerm btn btn-dark text-warning col-12"
+          placeholder="Search"
+        />
+      </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">ID</th>
+                  <th scope="col">Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let cat of categories | filter: term let i = index">
+                  <th scope="row">{{i+1}}</th>
+                  <td>{{cat.id}}</td>
+                  <td>{{cat.name}}</td>
+                </tr>
+              </tbody>
+          </table>
+    </div>
+    <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+      <div class="search my-3">
+        <input
+          type="text"
+          [(ngModel)]="term"
+          class="searchTerm btn btn-dark text-warning col-12"
+          placeholder="Search"
+        />
+      </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">ID</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Update</th>
+                  <th scope="col">Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let cat of categories | filter: term let i = index">
+                  <th scope="row">{{i+1}}</th>
+                  <td>{{cat.id}}</td>
+                  <td>{{cat.name}}</td>
+                  <td><button class="btn btn-success m-1" (click)="update(cat,cat.id)">Update</button></td>
+                  <td><button class="btn btn-danger m-1" (click)="deleteCat(cat.id,cat.name)">Delete</button></td>
+                </tr>
+              </tbody>
+          </table>
+    </div>
+  </div>
+</div>
+<div class="d-flex justify-content-center col-1">
+  <button class="btn btn-dark col-10 my-3" (click)="addNewCat()"><i class="fa-solid fa-circle-plus" style="font-size: 2.4rem;"></i></button>
+</div>
+</div>
+  <!-- -------------update-Add---------- -->
+
+<div
+class="modal fade"
+id="myModalAU"
+tabindex="-1"
+aria-labelledby="exampleModalLabel"
+aria-hidden="true"
+>
+<div class="modal-dialog modal-lg">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Add/Update Product</h5>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+        (click)="whenClose()"
+        
+      ></button>
+    </div>
+    <div class="modal-body">
+
+      <div class="col-12">
+        <div class="alert alert-success my-2" *ngIf="add">product add</div>
+        <div class="alert alert-success my-2" *ngIf="updateed">product updated</div>
+      </div>
+        <h3>Category</h3>
+        <form [formGroup]="addCategory" class="d-flex flex-column align-items-center justify-content-center">
+            <input formControlName="name" type="text" class="form-control mt-5" id="Name" name="name" [(ngModel)]="newCategory.name" required >
+
+        </form>
+        <small class="text-danger" [hidden]="addCategory.get('name')?.valid || addCategory.get('name')?.untouched">This Field is Require</small>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-success" [disabled]="addCategory.invalid" (click)="add_update_NewCat()">
+          Save
+        </button>
+      <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="whenClose()">
+        Close
+      </button>
+    </div>
+  </div>
+</div>
+</div>

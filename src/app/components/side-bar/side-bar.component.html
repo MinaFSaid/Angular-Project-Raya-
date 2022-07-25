@@ -1,0 +1,29 @@
+<!-- Sidebar -->
+<nav class="d-lg-block sidebar bg-white">
+        <div class="position-sticky">
+                <img src="../../../assets/raya.jpg" width="100%">
+                <div class="list-group list-group-flush mx-3 mt-4 nav navbar-nav">
+                        <a class="list-group-item list-group-item-action py-2 ripple" aria-current="true"
+                                routerLink="/Dashboard" routerLinkActive="active">
+                                <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Main dashboard</span>
+                        </a>
+                        <a class="list-group-item list-group-item-action py-2 ripple" routerLink="/Categories"
+                                routerLinkActive="active">
+                                <i class="fas fa-chart-area fa-fw me-3"></i><span>Manage Category</span>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action py-2 ripple" routerLink="/Products"
+                                routerLinkActive="active"><i class="fas fa-lock fa-fw me-3"></i><span>Manage
+                                        Products</span></a>
+                        <a href="#" class="list-group-item list-group-item-action py-2 ripple" routerLink="/ManageUser"
+                        routerLinkActive="active"><i
+                                        class="fas fa-chart-line fa-fw me-3"></i><span>Manage Users</span></a>
+
+                        <a href="#" class="list-group-item list-group-item-action py-2 ripple" routerLink="/Register"
+                        routerLinkActive="active"><i
+                                        class="fas fa-calendar fa-fw me-3"></i><span>Register</span></a>
+                        <div [hidden]="isUserLoggedIn">
+                                <button class="btn btn-danger col-12 my-5" (click)="logout()" >Logout</button>
+                        </div>
+                </div>
+        </div>
+</nav>

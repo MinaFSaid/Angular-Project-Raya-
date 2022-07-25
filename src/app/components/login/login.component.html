@@ -1,0 +1,50 @@
+<div class="container-fluid">
+  <div class="row m-5 pt-5">
+    <div class="col-3"></div>
+    <div class="col-6">
+      <div class="card shadow">
+        <div class="card-body">
+          <form #form="ngForm">
+            <div class="mb-3">
+              <h4 class="text-dark text-muted">Login</h4>
+            </div>
+            <div class="mb-3">
+              <label for="userEmail" class="form-label">Email</label>
+              <input type="email" #email="ngModel" class="form-control" ngModel name="userEmail" id="userEmail" required
+                email>
+              <div class="alert alert-danger" *ngIf="email.touched && email.errors?.['required']">Email Required</div>
+              <div class="alert alert-danger" *ngIf="email.touched && email.errors?.['email']">Email not matched</div>
+
+            </div>
+
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Password</label>
+              <input type="password" #password="ngModel" class="form-control" ngModel name="password" required
+                minlength="6">
+              <div class="alert alert-danger" *ngIf="password.touched && password.errors?.['required']">Password
+                Required </div>
+              <div class="alert alert-danger" *ngIf="password.touched && password.errors?.['minlength']">Password not
+                matched</div>
+
+            </div>
+            <button type="button" class="btn btn-primary" [disabled]="form.invalid" routerLink="/Dashboard"
+              routerLinkActive="active" (click)="_AuthService.SignIn(email.value, password.value)">Login</button>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="forgotPassword my-3">
+                  <span routerLink="/forgotPassword" class="link-primary" routerLink="/ForgotPassword" routerLinkActive="active">Forgot Password?</span>
+                </div>
+              </div>
+              <!-- <div class="redirectToLogin">
+                <span>Don't have an account?<span class="redirect link-primary" routerLink="/Register"> Sign Up</span></span>
+              </div> -->
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-3"></div>
+
+  </div>
+
+</div>

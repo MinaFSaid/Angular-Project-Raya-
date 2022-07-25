@@ -1,0 +1,55 @@
+<div class="container-fluid">
+  <div class="row m-5 pt-5 ">
+    <div class="col-3"></div>
+    <div class="col-6">
+      <div class="card shadow">
+        <div class="card-body">
+          <form #form="ngForm" >
+            <div class="mb-3">
+              <label for="userName" class="form-label">Full Name</label>
+
+              <input type="text"#name="ngModel" class="form-control" [(ngModel)]="_AuthService.fullName" name="userName" id="userName"  required>
+              <div class="alert alert-danger" *ngIf="name.invalid && name.touched">
+                Full Name Required
+              </div>
+            </div>
+
+          <div class="mb-3">
+            <label for="userEmail" class="form-label">Email</label>
+            <input type="email" #email="ngModel" class="form-control" [(ngModel)]="_AuthService.email" name="userEmail" id="userEmail"  required email>
+            <div class="alert alert-danger" *ngIf="email.touched && email.errors?.['required']">Email Required</div>
+            <div class="alert alert-danger" *ngIf="email.touched && email.errors?.['email']">Email not matched</div>
+
+          </div>
+
+            <div class="mb-3">
+              <label for="phoneNumber" class="form-label">Phone Number</label>
+              <input id="phoneNumber" type="number" #number="ngModel" class="form-control" [(ngModel)]="_AuthService.phoneNumber" name="number"  required>
+              <div class="alert alert-danger" *ngIf="number.invalid && number.touched">
+                Phone Number Required
+
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input id="password" type="password" #password="ngModel" class="form-control" ngModel name="password"  required minlength="6">
+              <div class="alert alert-danger" *ngIf="password.touched && password.errors?.['required']">Password Required </div>
+            <div class="alert alert-danger" *ngIf="password.touched && password.errors?.['minlength']">Password not matched</div>
+
+            </div>
+            <button type="button" class="btn btn-primary" [disabled]="form.invalid "  routerLink="/Dashboard" routerLinkActive="active" (click)="_AuthService.SignUp(email.value, password.value)" (click)="_AuthService.addUser()" >Create Account</button>
+            <button type="button" class="btn btn-primary"  routerLink="/Login" routerLinkActive="active" (click)="_AuthService.SignIn(email.value, password.value)">Login</button>
+
+          </form>
+          <br>
+          <div alert alert-danger *ngIf="errorMessage">{{errorMessage}}</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-3"></div>
+
+  </div>
+
+</div>
+
+
